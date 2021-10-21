@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
+using Outlook = Microsoft.Office.Interop.Outlook;
 
 namespace PhishReport
 {
@@ -34,6 +35,12 @@ namespace PhishReport
 					tosend.Body = header;
 					tosend.Save();
 					tosend.Send();
+
+					Outlook.MAPIFolder inBox = (Outlook.MAPIFolder)this.Application.
+		  ActiveExplorer().Session.GetDefaultFolder(Outlook.OlDefaultFolders.olFolderJunk);
+					//Microsoft.Office.Interop.Outlook.Folder inbox = Application.ActiveExplorer().Session.GetDefaultFolder(Microsoft.Office.Interop.Outlook.OlDefaultFolders.olFolderInbox);
+
+
 				}
 				catch (System.Exception exc)
 				{
