@@ -23,11 +23,15 @@ namespace PhishReport
 			{
 				try
 				{
+					string PropName = "http://schemas.microsoft.com/mapi/proptag/0x007D001E";
+					var oPA = mailitem.PropertyAccessor;
+					string header = oPA.GetProperty(PropName);
+
 					MailItem tosend = (MailItem)Globals.ThisAddIn.Application.CreateItem(OlItemType.olMailItem);
 					tosend.Attachments.Add(mailitem);
 					tosend.To = "marge.simpson@lab.local";
 					tosend.Subject = "Suspected mail";
-					tosend.Body = "";
+					tosend.Body = header;
 					tosend.Save();
 					tosend.Send();
 				}
@@ -36,7 +40,7 @@ namespace PhishReport
 					Console.WriteLine("Exception caught: {0}", exc.Message);
 				}
 
-				MessageBox.Show(mailitem.Subject);
+				MessageBox.Show("Diky za nahlaseni");
 			}
 		}
 	}
