@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="PhishReport" Language="1033" Version="1.0.0.0" Manufacturer="Zdenek K." UpgradeCode="ba493dd6-fafb-4e8a-a393-4f1f2502477b">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of PhishReport is already installed." />
+
+		<Property Id="VSTORUNTIMEREDIST">
+			<RegistrySearch
+			  Id="VSTORuntimeRedist"
+			  Root="HKLM"
+			  Key="SOFTWARE\Microsoft\VSTO Runtime Setup\v4R"
+			  Name="Version"
+			  Type="raw" />
+		</Property>
+		<Condition
+		  Message="The Visual Studio 2010 Tools for Office Runtime is not installed. 
+  Please download and install from 
+  http://www.microsoft.com/en-us/download/details.aspx?id=20479.">
+			<![CDATA[Installed OR VSTORUNTIMEREDIST>="10.0.30319"]]>
+		</Condition>
+
+		<PropertyRef Id="NETFRAMEWORK40FULL"/>
+		<Condition Message="This application requires .NET Framework 4.0.">
+			<![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+		</Condition>
+
+		<UIRef Id="WixUI_Minimal" />
+		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
+		
+		<Media Id="1" Cabinet="ExcelAddin1.cab" EmbedCab="yes"/>
+		
+		<Feature Id="ProductFeature" Title="PhishReport" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentRef Id="Registry_FriendlyName" />
+			<ComponentRef Id="Registry_Description" />
+			<ComponentRef Id="Registry_Manifest" />
+			<ComponentRef Id="Registry_LoadBehavior" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="PhishReport" />
+				<Component Id="Registry_FriendlyName">
+					<RegistryValue Id="RegKey_FriendlyName" Root="HKCU"
+										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
+										Name="FriendlyName"
+										Value="PhishReport Add-In for Outlook"
+										Type="string" KeyPath="yes" />
+				</Component>
+				<Component Id="Registry_Description">
+					<RegistryValue Id="RegKey_Description" Root="HKCU"
+										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
+										Name="Description"
+										Value="Outlook add-in for reporting of suspicious e-mails"
+										Type="string" KeyPath="yes" />
+				</Component>
+				<Component Id="Registry_Manifest">
+					<RegistryValue Id="RegKey_Manifest" Root="HKCU"
+										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
+										Name="Manifest" Value="[INSTALLFOLDER]PhishReport.vsto|vstolocal"
+										Type="string" KeyPath="yes" />
+				</Component>
+				<Component Id="Registry_LoadBehavior">
+					<RegistryValue Id="RegKey_LoadBehavior" Root="HKCU"
+										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
+										Name="LoadBehavior" Value="3"
+										Type="integer" KeyPath="yes" />
+				</Component>
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<Component Id="PhishReport_vsto_Component">
+				<File Id="PhishReport_vsto" KeyPath="yes"
+						Name="PhishReport.vsto" Source="$(var.AddinFiles)"></File>
+			</Component>
+			<Component Id="PhishReport_dll_manifest_Component">
+				<File Id="PhishReport_dll_manifest" KeyPath="yes"
+						Name="PhishReport.dll.manifest" Source="$(var.AddinFiles)"></File>
+			</Component>
+			<Component Id="PhishReport_dll_Component" >
+				<File Id="PhishReport_dll" KeyPath="yes"
+						Name="PhishReport.dll" Source="$(var.AddinFiles)" />
+			</Component>
+			<Component Id="PhishReport_dll_config_Component" >
+				<File Id="PhishReport_dll_config" KeyPath="yes"
+						Name="PhishReport.dll.config" Source="$(var.AddinFiles)" />
+			</Component>
+			<Component Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll">
+				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes"
+						Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll"
+						Source="$(var.AddinFiles)"></File>
+			</Component>
+			<Component Id="Microsoft_Office_Tools_Outlook_v4_0_Utilities_dll_Component">
+				<File Id="Microsoft_Office_Tools_Outlook_v4_0_Utilities_dll" KeyPath="yes"
+						Name="Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+</Wix>
