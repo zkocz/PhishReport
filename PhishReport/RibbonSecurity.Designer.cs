@@ -57,8 +57,11 @@ namespace PhishReport
 			// 
 			// btnReport
 			// 
+			this.btnReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.btnReport.Image = global::PhishReport.Properties.Resources.spam_64x64;
 			this.btnReport.Label = "Report mail";
 			this.btnReport.Name = "btnReport";
+			this.btnReport.ShowImage = true;
 			this.btnReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnReport_Click);
 			// 
 			// RibbonSecurity

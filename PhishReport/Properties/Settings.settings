@@ -1,7 +1,24 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PhishReport.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="FwdAddress" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">security@lab.local</Value>
+    </Setting>
+    <Setting Name="TargetFolder" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1</Value>
+    </Setting>
+    <Setting Name="Thanks" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Diky za nahlaseni</Value>
+    </Setting>
+    <Setting Name="Subject" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Suspected spam</Value>
+    </Setting>
+    <Setting Name="Hint" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Nahlasit podezrely e-mail</Value>
+    </Setting>
+    <Setting Name="NoMailSelected" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Neni vybrany zadny mail</Value>
+    </Setting>
+  </Settings>
 </SettingsFile>
