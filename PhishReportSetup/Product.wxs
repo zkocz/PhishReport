@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<Product Id="*" Name="PhishReport" Language="1033" Version="1.0.0.0" Manufacturer="Zdenek K." UpgradeCode="ba493dd6-fafb-4e8a-a393-4f1f2502477b">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-
+		
 		<MajorUpgrade DowngradeErrorMessage="A newer version of PhishReport is already installed." />
 
 		<Property Id="VSTORUNTIMEREDIST">
@@ -13,22 +13,33 @@
 			  Name="Version"
 			  Type="raw" />
 		</Property>
-		<Condition
-		  Message="The Visual Studio 2010 Tools for Office Runtime is not installed. 
-  Please download and install from 
-  http://www.microsoft.com/en-us/download/details.aspx?id=20479.">
-			<![CDATA[Installed OR VSTORUNTIMEREDIST>="10.0.30319"]]>
-		</Condition>
 
+		<Property Id="FWDADDRESS" />
+		<Property Id="SUBJECTPREFIX" />
+		<Property Id="THANKS" />
+		
 		<PropertyRef Id="NETFRAMEWORK40FULL"/>
-		<Condition Message="This application requires .NET Framework 4.0.">
-			<![CDATA[Installed OR NETFRAMEWORK40FULL]]>
+		<PropertyRef Id="NETFRAMEWORK45"/>
+
+		<Condition Message='This setup requires Microsoft .NET Framework 4.0 Full or 4.5 package or greater for this application.'>
+			<![CDATA[Installed OR NETFRAMEWORK40FULL OR NETFRAMEWORK45]]>
 		</Condition>
 
-		<UIRef Id="WixUI_Minimal" />
+		<Condition Message='This application requires at least Microsoft Windows 7'>VersionNT >= 601</Condition>
+
+		<UI Id="MyWixUI_Mondo">
+			<UIRef Id="WixUI_Mondo" />
+			<UIRef Id="WixUI_ErrorProgressText" />
+
+			<DialogRef Id="dlgSettings" />
+
+			<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="dlgSettings" Order="3">LicenseAccepted = "1"</Publish>
+			<Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="dlgSettings">1</Publish>
+		</UI>	
+
 		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
 		
-		<Media Id="1" Cabinet="ExcelAddin1.cab" EmbedCab="yes"/>
+		<Media Id="1" Cabinet="PhishReport.cab" EmbedCab="yes"/>
 		
 		<Feature Id="ProductFeature" Title="PhishReport" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
@@ -44,61 +55,56 @@
 			<Directory Id="ProgramFilesFolder">
 				<Directory Id="INSTALLFOLDER" Name="PhishReport" />
 				<Component Id="Registry_FriendlyName">
-					<RegistryValue Id="RegKey_FriendlyName" Root="HKCU"
-										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
-										Name="FriendlyName"
-										Value="PhishReport Add-In for Outlook"
-										Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_FriendlyName" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="FriendlyName" Value="PhishReport Add-In for Outlook" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_Description">
-					<RegistryValue Id="RegKey_Description" Root="HKCU"
-										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
-										Name="Description"
-										Value="Outlook add-in for reporting of suspicious e-mails"
-										Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_Description" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="Description" Value="Outlook add-in for reporting of suspicious e-mails" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_Manifest">
-					<RegistryValue Id="RegKey_Manifest" Root="HKCU"
-										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
-										Name="Manifest" Value="[INSTALLFOLDER]PhishReport.vsto|vstolocal"
-										Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_Manifest" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="Manifest" Value="[INSTALLFOLDER]PhishReport.vsto|vstolocal" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_LoadBehavior">
-					<RegistryValue Id="RegKey_LoadBehavior" Root="HKCU"
-										Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport"
-										Name="LoadBehavior" Value="3"
-										Type="integer" KeyPath="yes" />
+					<RegistryValue Id="RegKey_LoadBehavior" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="LoadBehavior" Value="3" Type="integer" KeyPath="yes" />
 				</Component>
 			</Directory>
 		</Directory>
 	</Fragment>
 
 	<Fragment>
+		<DirectoryRef Id="TARGETDIR">
+			<Component Id="RegistryEntries" Guid="eda2c71b-fef8-4006-97dd-da3856b6c5d1">
+				<RegistryKey Root="HKLM" Key="Software\PhishReport" Action="createAndRemoveOnUninstall">
+					<RegistryValue Type="string" Name="FwdAddress" Value="nekdo@nekde" KeyPath="yes"/>
+					<RegistryValue Type="string" Name="thanksMsg" Value="diky"/>
+					<RegistryValue Type="integer" Value="Default Value"/>
+				</RegistryKey>
+			</Component>
+		</DirectoryRef>	
+		
+	</Fragment>
+
+	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
 			<Component Id="PhishReport_vsto_Component">
-				<File Id="PhishReport_vsto" KeyPath="yes"
-						Name="PhishReport.vsto" Source="$(var.AddinFiles)"></File>
+				<File Id="PhishReport_vsto" KeyPath="yes" Name="PhishReport.vsto" Source="$(var.AddinFiles)"></File>
 			</Component>
 			<Component Id="PhishReport_dll_manifest_Component">
-				<File Id="PhishReport_dll_manifest" KeyPath="yes"
-						Name="PhishReport.dll.manifest" Source="$(var.AddinFiles)"></File>
+				<File Id="PhishReport_dll_manifest" KeyPath="yes" Name="PhishReport.dll.manifest" Source="$(var.AddinFiles)"></File>
 			</Component>
 			<Component Id="PhishReport_dll_Component" >
-				<File Id="PhishReport_dll" KeyPath="yes"
-						Name="PhishReport.dll" Source="$(var.AddinFiles)" />
+				<File Id="PhishReport_dll" KeyPath="yes" Name="PhishReport.dll" Source="$(var.AddinFiles)" />
 			</Component>
 			<Component Id="PhishReport_dll_config_Component" >
-				<File Id="PhishReport_dll_config" KeyPath="yes"
-						Name="PhishReport.dll.config" Source="$(var.AddinFiles)" />
+				<File Id="PhishReport_dll_config" KeyPath="yes" Name="PhishReport.dll.config" Source="$(var.AddinFiles)" />
+				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='FwdAddress'[\]]/value" Value="[FWDADDRESS]" Permanent="yes" />
+				<util:XmlFile Id="SetThanks" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='Thanks'[\]]/value" Value="[THANKS]" Permanent="yes" />
+				<util:XmlFile Id="SetSubject" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='Subject'[\]]/value" Value="[SUBJECTPREFIX]" Permanent="yes" />
 			</Component>
 			<Component Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll">
-				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes"
-						Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll"
-						Source="$(var.AddinFiles)"></File>
+				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes" Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
 			</Component>
 			<Component Id="Microsoft_Office_Tools_Outlook_v4_0_Utilities_dll_Component">
-				<File Id="Microsoft_Office_Tools_Outlook_v4_0_Utilities_dll" KeyPath="yes"
-						Name="Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
+				<File Id="Microsoft_Office_Tools_Outlook_v4_0_Utilities_dll" KeyPath="yes" Name="Microsoft.Office.Tools.Outlook.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
 			</Component>
 		</ComponentGroup>
 	</Fragment>
