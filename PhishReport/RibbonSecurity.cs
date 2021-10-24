@@ -84,7 +84,7 @@ namespace PhishReport
 
 				MailItem fwMail = (MailItem)Globals.ThisAddIn.Application.CreateItem(OlItemType.olMailItem);
 				fwMail.To = Properties.Settings.Default.FwdAddress;
-				fwMail.Subject = string.Format("{0}: {1}", Properties.Settings.Default.Subject, originalMail.Subject);
+				fwMail.Subject = string.Format("{0}{1}", Properties.Settings.Default.Subject, originalMail.Subject);
 				fwMail.Body = header;
 				fwMail.Attachments.Add(originalMail);
 				fwMail.Save();
