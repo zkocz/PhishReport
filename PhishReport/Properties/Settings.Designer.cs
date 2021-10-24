@@ -52,7 +52,7 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Suspicious email")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Suspicious email: ")]
         public string Subject {
             get {
                 return ((string)(this["Subject"]));

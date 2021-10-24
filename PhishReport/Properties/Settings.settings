@@ -12,7 +12,7 @@
       <Value Profile="(Default)">Thank you!</Value>
     </Setting>
     <Setting Name="Subject" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">Suspicious email</Value>
+      <Value Profile="(Default)">Suspicious email: </Value>
     </Setting>
     <Setting Name="Hint" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Report as suspicious email</Value>
