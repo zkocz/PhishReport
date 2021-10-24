@@ -52,14 +52,14 @@ namespace PhishReport
 			// group1
 			// 
 			this.group1.Items.Add(this.btnReport);
-			this.group1.Label = "Suspected mail";
+			this.group1.Label = "Suspicious email";
 			this.group1.Name = "group1";
 			// 
 			// btnReport
 			// 
 			this.btnReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
 			this.btnReport.Image = global::PhishReport.Properties.Resources.spam_64x64;
-			this.btnReport.Label = "Report mail";
+			this.btnReport.Label = "Report email";
 			this.btnReport.Name = "btnReport";
 			this.btnReport.ShowImage = true;
 			this.btnReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnReport_Click);
@@ -67,7 +67,8 @@ namespace PhishReport
 			// RibbonSecurity
 			// 
 			this.Name = "RibbonSecurity";
-			this.RibbonType = "Microsoft.Outlook.Explorer, Microsoft.Outlook.Mail.Read";
+			this.RibbonType = "Microsoft.Outlook.Explorer, Microsoft.Outlook.Mail.Read, Microsoft.Outlook.Meetin" +
+    "gRequest.Read, Microsoft.Outlook.Response.Read, Microsoft.Outlook.RSS";
 			this.Tabs.Add(this.tab1);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.RibbonSecurity_Load);
 			this.tab1.ResumeLayout(false);

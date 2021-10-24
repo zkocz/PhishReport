@@ -14,11 +14,13 @@ namespace PhishReport
 
 		private void btnReport_Click(object sender, RibbonControlEventArgs e)
 		{
+			bool supported = false;
 			Inspector inspector = e.Control.Context as Inspector;
 			if (inspector != null)
 			{
 				MailItem originalMail = inspector.CurrentItem as MailItem;
 				Send(originalMail);
+				supported = true;
 			}
 			else
 			{ 
@@ -36,8 +38,15 @@ namespace PhishReport
 					if(selectedItem is MailItem)
 					{
 						Send((MailItem)selectedItem);
+						supported = true;
 					}
 				}
+			}
+
+			if(!supported)
+			{
+				MessageBox.Show(Properties.Settings.Default.NoSupportedMailSelected);
+				return;
 			}
 		}
 

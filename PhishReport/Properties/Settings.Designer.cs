@@ -43,7 +43,7 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Diky za nahlaseni")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Thank you!")]
         public string Thanks {
             get {
                 return ((string)(this["Thanks"]));
@@ -52,7 +52,7 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Suspected spam")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Suspicious email")]
         public string Subject {
             get {
                 return ((string)(this["Subject"]));
@@ -61,7 +61,7 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Nahlasit podezrely e-mail")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Report as suspicious email")]
         public string Hint {
             get {
                 return ((string)(this["Hint"]));
@@ -70,10 +70,22 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Neni vybrany zadny mail")]
+        [global::System.Configuration.DefaultSettingValueAttribute("No item selected")]
         public string NoMailSelected {
             get {
                 return ((string)(this["NoMailSelected"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("No supported item selected")]
+        public string NoSupportedMailSelected {
+            get {
+                return ((string)(this["NoSupportedMailSelected"]));
+            }
+            set {
+                this["NoSupportedMailSelected"] = value;
             }
         }
     }

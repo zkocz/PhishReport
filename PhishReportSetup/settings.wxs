@@ -4,12 +4,12 @@
 	<Fragment>
 		<UI>
 			<Dialog Id="dlgSettings" Width="370" Height="270" Title="[ProductName] Setup" NoMinimize="yes">
-				<Control Id="labMail" Type="Text" X="45" Y="70" Width="100" Height="15" TabSkip="no" Text="&amp;Target email address:" />
-				<Control Id="edtMail" Type="Edit" X="45" Y="82" Width="220" Height="18" Property="FWDADDRESS" />
+				<Control Id="labFwd" Type="Text" X="45" Y="70" Width="100" Height="15" TabSkip="no" Text="&amp;Target email address:" />
+				<Control Id="edtFwd" Type="Edit" X="45" Y="82" Width="220" Height="18" Property="FWD_ADDRESS" />
 				<Control Id="labSubject" Type="Text" X="45" Y="107" Width="100" Height="15" TabSkip="no" Text="&amp;Subject prefix:" />
-				<Control Id="edtSubject" Type="Edit" X="45" Y="119" Width="220" Height="18" Property="SUBJECTPREFIX" />
-				<Control Id="labThanks" Type="Text" X="45" Y="144" Width="100" Height="15" TabSkip="no" Text="&amp;Message to display:" />
-				<Control Id="edtThanks" Type="Edit" X="45" Y="156" Width="220" Height="18" Property="THANKS" />
+				<Control Id="edtSubject" Type="Edit" X="45" Y="119" Width="220" Height="18" Property="SUBJECT_PREFIX" />
+				<Control Id="labConfirmation" Type="Text" X="45" Y="144" Width="100" Height="15" TabSkip="no" Text="&amp;Message to display:" />
+				<Control Id="edtConfirmation" Type="Edit" X="45" Y="156" Width="220" Height="18" Property="CONFIRMATION_MESSAGE" />
 				
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
 					<Publish Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
