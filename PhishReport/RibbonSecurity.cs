@@ -1,4 +1,8 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using System.Windows.Forms;
+using System.Xml.Linq;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
 using Outlook = Microsoft.Office.Interop.Outlook;
@@ -9,13 +13,20 @@ namespace PhishReport
 	{
 		private void RibbonSecurity_Load(object sender, RibbonUIEventArgs e)
 		{
-
+			
 		}
 
-		private void btnReport_Click(object sender, RibbonControlEventArgs e)
+		/// <summary>
+		/// Click on main button
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void sbtnReport_Click(object sender, RibbonControlEventArgs e)
 		{
 			//Application.ProductName returns "Outlook"
 			const string APP_NAME = "PhishReport";
+
+			bool sent = false;
 			bool supported = false;
 			Inspector inspector = e.Control.Context as Inspector;
 			if (inspector != null)
@@ -24,11 +35,12 @@ namespace PhishReport
 				try
 				{
 					Send(originalMail);
+					sent = true;
 					supported = true;
 				}
 				catch (System.Exception exc)
 				{
-					MessageBox.Show(exc.Message);
+					MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
 			else
@@ -47,16 +59,21 @@ namespace PhishReport
 				{
 					if (selectedItem is MailItem)
 					{
+						supported = true;
 						try
 						{
 							Send((MailItem)selectedItem);
-							supported = true;
+							sent = true;
 						}
 						catch (System.Exception exc)
 						{
-							string s = exc.Message;
-							MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 						}
+					}
+					else
+					{
+
+						MessageBox.Show("Unsupported item", APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 				}
 			}
@@ -67,53 +84,74 @@ namespace PhishReport
 				MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
-			else
+			
+			if(sent)
 			{
-				string s = Properties.Settings.Default.Thanks;
+				Dictionary<string, object> settings = Settings.Get();
+				string s = settings["ConfirmationMessage"].ToString();
 				MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
 			}
 		}
 
+		/// <summary>
+		/// Cretaes a new email and sends the original email as attachment. Current email is moved to folder specified in Settings
+		/// </summary>
+		/// <param name="originalMail"></param>
 		void Send(MailItem originalMail)
 		{
 			if (originalMail != null)
 			{
+				Dictionary<string, object> settings = Settings.Get();
+				
+				//create new email
 				string propName = "http://schemas.microsoft.com/mapi/proptag/0x007D001E";
 				var propAccessor = originalMail.PropertyAccessor;
 				string header = propAccessor.GetProperty(propName);
 
 				MailItem fwMail = (MailItem)Globals.ThisAddIn.Application.CreateItem(OlItemType.olMailItem);
-				fwMail.To = Properties.Settings.Default.FwdAddress;
-				fwMail.Subject = string.Format("{0}{1}", Properties.Settings.Default.Subject, originalMail.Subject);
+				fwMail.To = settings["FwdAddress"].ToString();
+				fwMail.Subject = string.Format("{0}{1}", settings["SubjectPrefix"].ToString(), originalMail.Subject);
 				fwMail.Body = header;
 				fwMail.Attachments.Add(originalMail);
 				fwMail.Save();
 				fwMail.Send();
 
+				//get folder to move to
 				OlDefaultFolders targetFolder = OlDefaultFolders.olFolderInbox;
-
-				int targetFolderId = (int)Properties.Settings.Default.TargetFolder;
+				string strTF = settings["TargetFolder"].ToString();
+				int targetFolderId = Convert.ToInt32(settings["TargetFolder"].ToString());
 				switch (targetFolderId)
 				{
 					case 1:
-						targetFolder = OlDefaultFolders.olFolderJunk;
-						break;
-					case 2:
 						targetFolder = OlDefaultFolders.olFolderDeletedItems;
 						break;
 					default:
-						targetFolderId = 0;
+						targetFolder = OlDefaultFolders.olFolderJunk;
 						break;
 				}
 
-				if (targetFolderId > 0)
-				{
-					originalMail.Close(OlInspectorClose.olDiscard);
-					Outlook.Application a = new Outlook.Application();
-					MAPIFolder target = a.ActiveExplorer().Session.GetDefaultFolder(targetFolder);
-					originalMail.Move(target);
-				}
+				originalMail.Close(OlInspectorClose.olDiscard);
+				MAPIFolder target = new Outlook.Application().ActiveExplorer().Session.GetDefaultFolder(targetFolder);
+				originalMail.Move(target);
 			}
+		}
+
+		/// <summary>
+		/// Displays "About" information
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnAbout_Click(object sender, RibbonControlEventArgs e)
+		{
+			frmAbout f = new frmAbout();
+			f.ShowDialog();
+		}
+
+		//Displays Form for settings
+		private void btnSettings_Click(object sender, RibbonControlEventArgs e)
+		{
+			frmSettings f = new frmSettings();
+			f.ShowDialog();
 		}
 	}
 }

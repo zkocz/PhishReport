@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<PhishReport>
+	<Settings>
+		<FwdAddress>XMLsecurity@lab.local</FwdAddress>
+		<TargetFolder>0</TargetFolder>
+		<ConfirmationMessage>xml Diky za nahlaseni</ConfirmationMessage>
+		<SubjectPrefix>xml Suspected spam</SubjectPrefix>
+	</Settings>
+</PhishReport>

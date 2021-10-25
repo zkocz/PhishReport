@@ -44,9 +44,9 @@ namespace PhishReport.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Thank you!")]
-        public string Thanks {
+        public string ConfirmationMessage {
             get {
-                return ((string)(this["Thanks"]));
+                return ((string)(this["ConfirmationMessage"]));
             }
         }
         
@@ -77,15 +77,12 @@ namespace PhishReport.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("No supported item selected")]
         public string NoSupportedMailSelected {
             get {
                 return ((string)(this["NoSupportedMailSelected"]));
-            }
-            set {
-                this["NoSupportedMailSelected"] = value;
             }
         }
     }

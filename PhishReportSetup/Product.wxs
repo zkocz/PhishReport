@@ -14,6 +14,8 @@
 			  Type="raw" />
 		</Property>
 
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+		
 		<Property Id="FWD_ADDRESS" />
 		<Property Id="SUBJECT_PREFIX" />
 		<Property Id="CONFIRMATION_MESSAGE" />
@@ -27,18 +29,62 @@
 
 		<Condition Message='This application requires at least Microsoft Windows 7'>VersionNT >= 601</Condition>
 
+		<UI Id="UserInterface">
+			<DialogRef Id="dlgSettings" />
+
+			<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
+			
+			<TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
+			<TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="9" Bold="yes" />
+			<TextStyle Id="WixUI_Font_Title"  FaceName="Tahoma" Size="9" Bold="yes" />
+
+			<DialogRef Id="BrowseDlg" />
+			<DialogRef Id="DiskCostDlg" />
+			<DialogRef Id="ErrorDlg" />
+			<DialogRef Id="FatalError" />
+			<DialogRef Id="FilesInUse" />
+			<DialogRef Id="MsiRMFilesInUse" />
+			<DialogRef Id="PrepareDlg" />
+			<DialogRef Id="ProgressDlg" />
+			<DialogRef Id="ResumeDlg" />
+			<DialogRef Id="UserExit" />
+
+			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
+			<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAccepted = "1"</Publish>
+			<Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"></Publish>
+
+			<Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="LicenseAgreementDlg"></Publish>
+			<Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="10">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="Next" Event="NewDialog" Value="dlgSettings" Order="20">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="ChangeFolder" Property="_BrowseProperty" Value="[WIXUI_INSTALLDIR]" Order="10">1</Publish>
+			<Publish Dialog="InstallDirDlg" Control="ChangeFolder" Event="SpawnDialog" Value="BrowseDlg" Order="20">1</Publish>
+
+			<!-- settings dialog -->
+
+			<!-- Back button declaration so no error on build -->
+			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="dlgSettings"></Publish>
+
+			<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+		</UI>
+		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
+		<UIRef Id="WixUI_Common" />
+		<UIRef Id="WixUI_ErrorProgressText" />
+
+
+			<!-- puvodne
 		<UI Id="MyWixUI_Mondo">
 			<UIRef Id="WixUI_Mondo" />
 			<UIRef Id="WixUI_ErrorProgressText" />
-
 			<DialogRef Id="dlgSettings" />
 
 			<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="dlgSettings" Order="3">LicenseAccepted = "1"</Publish>
 			<Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="dlgSettings">1</Publish>
+
 		</UI>	
 
 		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
-		
+			-->
+			
 		<Media Id="1" Cabinet="PhishReport.cab" EmbedCab="yes"/>
 		
 		<Feature Id="ProductFeature" Title="PhishReport" Level="1">
@@ -49,6 +95,7 @@
 			<ComponentRef Id="Registry_LoadBehavior" />
 		</Feature>
 	</Product>
+
 
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
@@ -83,10 +130,22 @@
 			</Component>
 			<Component Id="PhishReport_dll_config_Component" >
 				<File Id="PhishReport_dll_config" KeyPath="yes" Name="PhishReport.dll.config" Source="$(var.AddinFiles)" />
+<!--
 				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='FwdAddress'[\]]/value" Value="[FWD_ADDRESS]" Permanent="yes" />
-				<util:XmlFile Id="SetThanks" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='Thanks'[\]]/value" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
+				<util:XmlFile Id="SetThanks" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='ConfirmationMessage'[\]]/value" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
 				<util:XmlFile Id="SetSubject" File="[#PhishReport_dll_config]" Action="setValue" ElementPath="/configuration/applicationSettings/PhishReport.Properties.Settings/setting[\[]@name='Subject'[\]]/value" Value="[SUBJECT_PREFIX]" Permanent="yes" />
+				
+				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/[\[]@name='FwdAddress'[\]]" Value="[FWD_ADDRESS]" Permanent="yes" />
+				<util:XmlFile Id="SetThanks" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/[\[]@name='ConfirmationMessage'[\]]" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
+				<util:XmlFile Id="SetSubject" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/[\[]@name='SubjectPrefix'[\]]" Value="[SUBJECT_PREFIX]" Permanent="yes" />			
+-->
 			</Component>
+			<Component Id="PhishReport_settings_xml_Component" >
+				<File Id="PhishReport_settings_xml" KeyPath="yes" Name="PhishReport.settings.xml" Source="$(var.AddinFiles)" />
+				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/FwdAddress" Value="[FWD_ADDRESS]" Permanent="yes" />
+				<util:XmlFile Id="SetThanks" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/ConfirmationMessage" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
+				<util:XmlFile Id="SetSubject" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/SubjectPrefix" Value="[SUBJECT_PREFIX]" Permanent="yes" />
+			</Component>			
 			<Component Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll">
 				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes" Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
 			</Component>

@@ -37,7 +37,9 @@ namespace PhishReport
 		{
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
-			this.btnReport = this.Factory.CreateRibbonButton();
+			this.sbtnReport = this.Factory.CreateRibbonSplitButton();
+			this.btnSettings = this.Factory.CreateRibbonButton();
+			this.btnAbout = this.Factory.CreateRibbonButton();
 			this.tab1.SuspendLayout();
 			this.group1.SuspendLayout();
 			this.SuspendLayout();
@@ -51,18 +53,33 @@ namespace PhishReport
 			// 
 			// group1
 			// 
-			this.group1.Items.Add(this.btnReport);
+			this.group1.Items.Add(this.sbtnReport);
 			this.group1.Label = "Suspicious email";
 			this.group1.Name = "group1";
 			// 
-			// btnReport
+			// sbtnReport
 			// 
-			this.btnReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.btnReport.Image = global::PhishReport.Properties.Resources.spam_64x64;
-			this.btnReport.Label = "Report email";
-			this.btnReport.Name = "btnReport";
-			this.btnReport.ShowImage = true;
-			this.btnReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnReport_Click);
+			this.sbtnReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+			this.sbtnReport.Image = global::PhishReport.Properties.Resources.spam_64x64;
+			this.sbtnReport.Items.Add(this.btnSettings);
+			this.sbtnReport.Items.Add(this.btnAbout);
+			this.sbtnReport.Label = "PhishReport";
+			this.sbtnReport.Name = "sbtnReport";
+			this.sbtnReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.sbtnReport_Click);
+			// 
+			// btnSettings
+			// 
+			this.btnSettings.Label = "Settings...";
+			this.btnSettings.Name = "btnSettings";
+			this.btnSettings.ShowImage = true;
+			this.btnSettings.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSettings_Click);
+			// 
+			// btnAbout
+			// 
+			this.btnAbout.Label = "About...";
+			this.btnAbout.Name = "btnAbout";
+			this.btnAbout.ShowImage = true;
+			this.btnAbout.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnAbout_Click);
 			// 
 			// RibbonSecurity
 			// 
@@ -83,7 +100,9 @@ namespace PhishReport
 
 		internal Microsoft.Office.Tools.Ribbon.RibbonTab tab1;
 		internal Microsoft.Office.Tools.Ribbon.RibbonGroup group1;
-		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnReport;
+		internal Microsoft.Office.Tools.Ribbon.RibbonSplitButton sbtnReport;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnSettings;
+		internal Microsoft.Office.Tools.Ribbon.RibbonButton btnAbout;
 	}
 
 	partial class ThisRibbonCollection
