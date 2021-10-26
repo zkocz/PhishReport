@@ -33,7 +33,7 @@
     <PublishUrl>E:\Publish\PhishReport\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.0</ApplicationVersion>
+    <ApplicationVersion>1.0.0.1</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>false</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -268,7 +268,7 @@
     <ManifestKeyFile>PhishReport_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>5C82C80A3E1FE7309618DF00E03DB133A7D0D1A7</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>2697A8651CAF4A4BC20388F2D49A0F6E7649CCF0</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

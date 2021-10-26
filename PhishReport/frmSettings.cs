@@ -56,14 +56,15 @@ namespace PhishReport
 				Settings.Set("SubjectPrefix", txtSubject.Text);
 				Settings.Set("ConfirmationMessage", txtConfirmation.Text);
 				Settings.Set("TargetFolder", cbDestination.SelectedIndex.ToString());
+
+				this.DialogResult = DialogResult.OK;
+				this.Close();
 			}
 			catch (Exception exc)
 			{
-				//e.g. insufficient user's rights in Program Files
+				//e.g. insufficient user rights in Program Files
 				MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
-			this.DialogResult = DialogResult.OK;
-			this.Close();
 		}
 	}
 }
