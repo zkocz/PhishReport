@@ -25,42 +25,6 @@ namespace PhishReport.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("security@lab.local")]
-        public string FwdAddress {
-            get {
-                return ((string)(this["FwdAddress"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int TargetFolder {
-            get {
-                return ((int)(this["TargetFolder"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Thank you!")]
-        public string ConfirmationMessage {
-            get {
-                return ((string)(this["ConfirmationMessage"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Suspicious email: ")]
-        public string Subject {
-            get {
-                return ((string)(this["Subject"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("Report as suspicious email")]
         public string Hint {
             get {
@@ -74,15 +38,6 @@ namespace PhishReport.Properties {
         public string NoMailSelected {
             get {
                 return ((string)(this["NoMailSelected"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("No supported item selected")]
-        public string NoSupportedMailSelected {
-            get {
-                return ((string)(this["NoSupportedMailSelected"]));
             }
         }
     }

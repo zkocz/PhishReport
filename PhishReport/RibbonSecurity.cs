@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows.Forms;
-using System.Xml.Linq;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
 using Outlook = Microsoft.Office.Interop.Outlook;
@@ -13,7 +11,7 @@ namespace PhishReport
 	{
 		private void RibbonSecurity_Load(object sender, RibbonUIEventArgs e)
 		{
-			
+			sbtnReport.ScreenTip = Properties.Settings.Default.Hint;
 		}
 
 		/// <summary>
@@ -26,24 +24,23 @@ namespace PhishReport
 			//Application.ProductName returns "Outlook"
 			const string APP_NAME = "PhishReport";
 
+			//if any mail was successfully sent, display confirmation message
 			bool sent = false;
-			bool supported = false;
+			
 			Inspector inspector = e.Control.Context as Inspector;
-			if (inspector != null)
+			if (inspector != null)	//item is open
 			{
-				MailItem originalMail = inspector.CurrentItem as MailItem;
 				try
 				{
-					Send(originalMail);
+					Send(inspector.CurrentItem);
 					sent = true;
-					supported = true;
 				}
 				catch (System.Exception exc)
 				{
-					MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
 				}
 			}
-			else
+			else //get selected items in list of emails in current folder
 			{
 				Explorer explorer = new Outlook.Application().ActiveExplorer() as Explorer;
 				Selection selection = explorer.Selection;
@@ -52,39 +49,23 @@ namespace PhishReport
 				{
 					string s = Properties.Settings.Default.NoMailSelected;
 					MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
-					return;
 				}
-
-				foreach (var selectedItem in selection)
+				else
 				{
-					if (selectedItem is MailItem)
+					foreach (var selectedItem in selection)
 					{
-						supported = true;
 						try
 						{
-							Send((MailItem)selectedItem);
+							Send(selectedItem as MailItem);
 							sent = true;
 						}
 						catch (System.Exception exc)
 						{
-							MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+							MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
 						}
-					}
-					else
-					{
-
-						MessageBox.Show("Unsupported item", APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 					}
 				}
 			}
-
-			if (!supported)
-			{
-				string s = Properties.Settings.Default.NoSupportedMailSelected;
-				MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
-				return;
-			}
-			
 			if(sent)
 			{
 				Dictionary<string, object> settings = Settings.Get();

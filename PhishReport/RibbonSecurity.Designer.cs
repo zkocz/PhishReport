@@ -35,6 +35,7 @@ namespace PhishReport
 		/// </summary>
 		private void InitializeComponent()
 		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RibbonSecurity));
 			this.tab1 = this.Factory.CreateRibbonTab();
 			this.group1 = this.Factory.CreateRibbonGroup();
 			this.sbtnReport = this.Factory.CreateRibbonSplitButton();
@@ -84,8 +85,7 @@ namespace PhishReport
 			// RibbonSecurity
 			// 
 			this.Name = "RibbonSecurity";
-			this.RibbonType = "Microsoft.Outlook.Explorer, Microsoft.Outlook.Mail.Read, Microsoft.Outlook.Meetin" +
-    "gRequest.Read, Microsoft.Outlook.Response.Read, Microsoft.Outlook.RSS";
+			this.RibbonType = resources.GetString("$this.RibbonType");
 			this.Tabs.Add(this.tab1);
 			this.Load += new Microsoft.Office.Tools.Ribbon.RibbonUIEventHandler(this.RibbonSecurity_Load);
 			this.tab1.ResumeLayout(false);

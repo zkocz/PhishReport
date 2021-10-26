@@ -39,8 +39,8 @@ namespace PhishReport
 			this.label3 = new System.Windows.Forms.Label();
 			this.tabControl1 = new System.Windows.Forms.TabControl();
 			this.tabGeneral = new System.Windows.Forms.TabPage();
-			this.cbDestination = new System.Windows.Forms.ComboBox();
 			this.label4 = new System.Windows.Forms.Label();
+			this.cbDestination = new System.Windows.Forms.ComboBox();
 			this.tabControl1.SuspendLayout();
 			this.tabGeneral.SuspendLayout();
 			this.SuspendLayout();
@@ -61,13 +61,13 @@ namespace PhishReport
 			// 
 			// btnOk
 			// 
+			this.btnOk.DialogResult = System.Windows.Forms.DialogResult.OK;
 			this.btnOk.Location = new System.Drawing.Point(358, 297);
 			this.btnOk.Name = "btnOk";
 			this.btnOk.Size = new System.Drawing.Size(75, 23);
 			this.btnOk.TabIndex = 4;
 			this.btnOk.Text = "OK";
 			this.btnOk.UseVisualStyleBackColor = true;
-			this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
 			// 
 			// btnCancel
 			// 
@@ -140,15 +140,6 @@ namespace PhishReport
 			this.tabGeneral.TabIndex = 0;
 			this.tabGeneral.Text = "General";
 			// 
-			// cbDestination
-			// 
-			this.cbDestination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-			this.cbDestination.FormattingEnabled = true;
-			this.cbDestination.Location = new System.Drawing.Point(160, 152);
-			this.cbDestination.Name = "cbDestination";
-			this.cbDestination.Size = new System.Drawing.Size(121, 21);
-			this.cbDestination.TabIndex = 7;
-			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
@@ -157,6 +148,15 @@ namespace PhishReport
 			this.label4.Size = new System.Drawing.Size(89, 13);
 			this.label4.TabIndex = 8;
 			this.label4.Text = "Destination folder";
+			// 
+			// cbDestination
+			// 
+			this.cbDestination.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cbDestination.FormattingEnabled = true;
+			this.cbDestination.Location = new System.Drawing.Point(160, 152);
+			this.cbDestination.Name = "cbDestination";
+			this.cbDestination.Size = new System.Drawing.Size(121, 21);
+			this.cbDestination.TabIndex = 3;
 			// 
 			// frmSettings
 			// 

@@ -7,7 +7,7 @@ using System.Security;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("PhishReport")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This product is protected by copyright law. For details, please see https://github.com/zkocz/PhishReport")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("PhishReport")]

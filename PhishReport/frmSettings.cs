@@ -11,6 +11,8 @@ namespace PhishReport
 		public frmSettings()
 		{
 			InitializeComponent();
+
+			btnOk.Click += BtnOk_Click;
 		}
 
 		private void frmSettings_Load(object sender, EventArgs e)
@@ -36,7 +38,7 @@ namespace PhishReport
 			cbDestination.SelectedIndex = targetFolderId;
 		}
 
-		private void btnOk_Click(object sender, EventArgs e)
+		private void BtnOk_Click(object sender, EventArgs e)
 		{
 			const string APP_NAME = "PhishReport";
 			bool isEmail = Regex.IsMatch(txtAddreess.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
@@ -48,12 +50,20 @@ namespace PhishReport
 			}
 
 			//save new values
-			Settings.Set("FwdAddress", txtAddreess.Text);
-			Settings.Set("SubjectPrefix", txtSubject.Text);
-			Settings.Set("ConfirmationMessage", txtConfirmation.Text);
-			Settings.Set("TargetFolder", cbDestination.SelectedIndex.ToString());
-
+			try
+			{
+				Settings.Set("FwdAddress", txtAddreess.Text);
+				Settings.Set("SubjectPrefix", txtSubject.Text);
+				Settings.Set("ConfirmationMessage", txtConfirmation.Text);
+				Settings.Set("TargetFolder", cbDestination.SelectedIndex.ToString());
+			}
+			catch (Exception exc)
+			{
+				//e.g. insufficient user's rights in Program Files
+				MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			this.DialogResult = DialogResult.OK;
+			this.Close();
 		}
 	}
 }
