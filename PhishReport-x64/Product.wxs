@@ -2,15 +2,24 @@
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
 	<Product Id="*" Name="PhishReport" Language="1033" Version="1.0.0.0" Manufacturer="Zdenek K." UpgradeCode="ba493dd6-fafb-4e8a-a393-4f1f2502477b">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
-		
+
 		<MajorUpgrade DowngradeErrorMessage="A newer version of PhishReport is already installed." />
 
+		<Property Id="VSTORUNTIMEREDIST">
+			<RegistrySearch
+			  Id="VSTORuntimeRedist"
+			  Root="HKLM"
+			  Key="SOFTWARE\Microsoft\VSTO Runtime Setup\v4R"
+			  Name="Version"
+			  Type="raw" />
+		</Property>
+
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
-		
+
 		<Property Id="FWD_ADDRESS" />
 		<Property Id="SUBJECT_PREFIX" />
 		<Property Id="CONFIRMATION_MESSAGE" />
-		
+
 		<PropertyRef Id="NETFRAMEWORK40FULL"/>
 		<PropertyRef Id="NETFRAMEWORK45"/>
 
@@ -24,7 +33,7 @@
 			<DialogRef Id="dlgSettings" />
 
 			<Property Id="DefaultUIFont" Value="WixUI_Font_Normal" />
-			
+
 			<TextStyle Id="WixUI_Font_Normal" FaceName="Tahoma" Size="8" />
 			<TextStyle Id="WixUI_Font_Bigger" FaceName="Tahoma" Size="9" Bold="yes" />
 			<TextStyle Id="WixUI_Font_Title"  FaceName="Tahoma" Size="9" Bold="yes" />
@@ -38,12 +47,9 @@
 			<DialogRef Id="PrepareDlg" />
 			<DialogRef Id="ProgressDlg" />
 			<DialogRef Id="ResumeDlg" />
-			<DialogRef Id="MaintenanceWelcomeDlg" />
-			<DialogRef Id="MaintenanceTypeDlg" />
 			<DialogRef Id="UserExit" />
 
 			<Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">1</Publish>
-
 			<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">LicenseAccepted = "1"</Publish>
 			<Publish Dialog="LicenseAgreementDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg"></Publish>
 
@@ -58,23 +64,29 @@
 			<!-- Back button declaration so no error on build -->
 			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="dlgSettings"></Publish>
 
-			<Publish Dialog="MaintenanceWelcomeDlg" Control="Next" Event="NewDialog" Value="MaintenanceTypeDlg">1</Publish>
-
-			<Publish Dialog="MaintenanceTypeDlg" Control="RepairButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-			<Publish Dialog="MaintenanceTypeDlg" Control="RemoveButton" Event="NewDialog" Value="VerifyReadyDlg">1</Publish>
-			<Publish Dialog="MaintenanceTypeDlg" Control="Back" Event="NewDialog" Value="MaintenanceWelcomeDlg">1</Publish>
-
-			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="InstallDirDlg" Order="1">NOT Installed</Publish>
-			<Publish Dialog="VerifyReadyDlg" Control="Back" Event="NewDialog" Value="MaintenanceTypeDlg" Order="2">Installed</Publish>
-			
 			<Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
 		</UI>
 		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
 		<UIRef Id="WixUI_Common" />
 		<UIRef Id="WixUI_ErrorProgressText" />
 
+
+		<!-- puvodne
+		<UI Id="MyWixUI_Mondo">
+			<UIRef Id="WixUI_Mondo" />
+			<UIRef Id="WixUI_ErrorProgressText" />
+			<DialogRef Id="dlgSettings" />
+
+			<Publish Dialog="LicenseAgreementDlg" Control="Next" Event="NewDialog" Value="dlgSettings" Order="3">LicenseAccepted = "1"</Publish>
+			<Publish Dialog="SetupTypeDlg" Control="Back" Event="NewDialog" Value="dlgSettings">1</Publish>
+
+		</UI>	
+
+		<WixVariable Id="WixUILicenseRtf" Value="EULA.rtf" />
+			-->
+
 		<Media Id="1" Cabinet="PhishReport.cab" EmbedCab="yes"/>
-		
+
 		<Feature Id="ProductFeature" Title="PhishReport" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 			<ComponentRef Id="Registry_FriendlyName" />
@@ -124,7 +136,7 @@
 				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/FwdAddress" Value="[FWD_ADDRESS]" Permanent="yes" />
 				<util:XmlFile Id="SetThanks" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/ConfirmationMessage" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
 				<util:XmlFile Id="SetSubject" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/SubjectPrefix" Value="[SUBJECT_PREFIX]" Permanent="yes" />
-			</Component>			
+			</Component>
 			<Component Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll">
 				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes" Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>
 			</Component>
