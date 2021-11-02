@@ -48,7 +48,7 @@ namespace PhishReport
 			//verify if string match email pattern
 			bool isEmail = Regex.IsMatch(txtAddreess.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
 
-			if(!isEmail)
+			if (!isEmail)
 			{
 				MessageBox.Show("Invalid email address", APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
