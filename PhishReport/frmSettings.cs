@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Principal;
+using System.IO;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using System.Xml.Linq;
 
 namespace PhishReport
 {
@@ -40,7 +42,10 @@ namespace PhishReport
 
 		private void BtnOk_Click(object sender, EventArgs e)
 		{
+			//Application.ProductName returns Outlook, so I have const with product name
 			const string APP_NAME = "PhishReport";
+
+			//verify if string match email pattern
 			bool isEmail = Regex.IsMatch(txtAddreess.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
 
 			if(!isEmail)
@@ -60,9 +65,12 @@ namespace PhishReport
 				this.DialogResult = DialogResult.OK;
 				this.Close();
 			}
+			catch (UnauthorizedAccessException exc)
+			{
+				MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 			catch (Exception exc)
 			{
-				//e.g. insufficient user rights in Program Files
 				MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 		}

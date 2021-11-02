@@ -1,12 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-using System.Xml.XPath;
 
 namespace PhishReport
 {
@@ -17,6 +13,11 @@ namespace PhishReport
 
 		}
 
+		/// <summary>
+		/// Saves settings to XML file
+		/// </summary>
+		/// <param name="name">Setting name</param>
+		/// <param name="value">Setting value</param>
 		public static void Set(string name, string value)
 		{
 			string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
@@ -29,6 +30,10 @@ namespace PhishReport
 			doc.Save(localPath);
 		}
 
+		/// <summary>
+		/// Gets all settings
+		/// </summary>
+		/// <returns>Dictionary of settings</returns>
 		public static Dictionary<string, object> Get()
 		{
 			Dictionary<string, object> data = new Dictionary<string, object>();

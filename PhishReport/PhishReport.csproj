@@ -216,7 +216,7 @@
     <None Include="app.config" />
     <Content Include="PhishReport.settings.xml">
       <Generator>SettingsSingleFileGenerator</Generator>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="PhishReport_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
