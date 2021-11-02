@@ -5,6 +5,15 @@
 		
 		<MajorUpgrade DowngradeErrorMessage="A newer version of PhishReport is already installed." />
 
+		<Property Id="VSTORUNTIMEREDIST">
+			<RegistrySearch
+			  Id="VSTORuntimeRedist"
+			  Root="HKLM"
+			  Key="SOFTWARE\Microsoft\VSTO Runtime Setup\v4R"
+			  Name="Version"
+			  Type="raw" />
+		</Property>
+		
 		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
 		
 		<Property Id="FWD_ADDRESS" />

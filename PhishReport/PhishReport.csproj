@@ -262,7 +262,7 @@
     <ManifestKeyFile>PhishReport_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>2697A8651CAF4A4BC20388F2D49A0F6E7649CCF0</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>E5B37886D92A6C5442DD51B599EE0E81862D6A79</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
