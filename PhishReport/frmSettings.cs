@@ -17,8 +17,39 @@ namespace PhishReport
 			btnOk.Click += BtnOk_Click;
 		}
 
+		/// <summary>
+		/// Test if user has right to edit XML with settings (saved in Program Files)
+		/// </summary>
+		/// <returns></returns>
+		private bool TryWriteToConfig()
+		{
+			try
+			{
+				string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
+				string xmlFile = Path.Combine(dir, "phishreport.settings.xml");
+				string localPath = new Uri(xmlFile).LocalPath;
+				var doc = XElement.Load(localPath);
+
+				XElement element = doc.Element("Settings");
+				element.SetAttributeValue("id", Guid.NewGuid());
+				doc.Save(localPath);
+
+				return true;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 		private void frmSettings_Load(object sender, EventArgs e)
 		{
+			//I have experienced an issue with this check, so for this version I ignore it
+			//bool canEdit = TryWriteToConfig();
+			bool canEdit = true;
+			txtAddreess.ReadOnly = txtConfirmation.ReadOnly = txtSubject.ReadOnly = !canEdit;
+			cbDestination.Enabled = btnOk.Enabled = canEdit;
+
 			//list of supported folders to move
 			cbDestination.Items.Clear();
 			cbDestination.Items.AddRange(new string[] { "Junk Email", "Deleted Items" });
@@ -28,6 +59,11 @@ namespace PhishReport
 			txtAddreess.Text = settings["FwdAddress"].ToString();
 			txtSubject.Text = settings["SubjectPrefix"].ToString();
 			txtConfirmation.Text = settings["ConfirmationMessage"].ToString();
+
+			txtNoSelected.Text = settings["NoItemSelected"].ToString();
+			txtNoSupported.Text = settings["NoSupportedItemSelected"].ToString();
+			txtOneNotSent.Text = settings["OneUnsupportedItem"].ToString();
+			txtMultipleNotSent.Text = settings["MultipleUnsupportedItems"].ToString();
 
 			//set default ID (junk email) in case of invalid value
 			int targetFolderId = 0;
@@ -61,6 +97,10 @@ namespace PhishReport
 				Settings.Set("SubjectPrefix", txtSubject.Text);
 				Settings.Set("ConfirmationMessage", txtConfirmation.Text);
 				Settings.Set("TargetFolder", cbDestination.SelectedIndex.ToString());
+				Settings.Set("NoItemSelected", txtNoSelected.Text);
+				Settings.Set("NoSupportedItemSelected", txtNoSupported.Text);
+				Settings.Set("OneUnsupportedItem", txtOneNotSent.Text);
+				Settings.Set("MultipleUnsupportedItems", txtMultipleNotSent.Text);
 
 				this.DialogResult = DialogResult.OK;
 				this.Close();

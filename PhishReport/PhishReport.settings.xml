@@ -1,9 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <PhishReport>
 	<Settings>
-		<FwdAddress>XMLsecurity@lab.local</FwdAddress>
+		<FwdAddress>security@lab.local</FwdAddress>
 		<TargetFolder>0</TargetFolder>
-		<ConfirmationMessage>xml Diky za nahlaseni</ConfirmationMessage>
-		<SubjectPrefix>xml Suspected spam</SubjectPrefix>
+		<ConfirmationMessage>Thank you!</ConfirmationMessage>
+		<SubjectPrefix>Suspected spam</SubjectPrefix>
+		<Language>0</Language>
+		<NoItemSelected>No item selected</NoItemSelected>
+		<NoSupportedItemSelected>No supported item selected</NoSupportedItemSelected>
+		<OneUnsupportedItem>One item was not sent</OneUnsupportedItem>
+		<MultipleUnsupportedItems>Some items ({0}) were not send, but they should be safe :)</MultipleUnsupportedItems>
 	</Settings>
 </PhishReport>

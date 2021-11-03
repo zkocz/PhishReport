@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
@@ -23,6 +24,12 @@ namespace PhishReport
 		{
 			//Application.ProductName returns "Outlook"
 			const string APP_NAME = "PhishReport";
+			Dictionary<string, object> settings = Settings.Get();
+
+			int totalItems = 0;
+			int notSentItems = 0;
+			int errors = 0;
+			StringBuilder sbErrors = new StringBuilder();
 
 			//if any mail was successfully sent, display confirmation message
 			bool sent = false;
@@ -30,23 +37,29 @@ namespace PhishReport
 			Inspector inspector = e.Control.Context as Inspector;
 			if (inspector != null)	//item is open
 			{
+				totalItems = 1;
 				try
 				{
 					sent = Send(inspector.CurrentItem);
+					if (!sent)
+					{ 
+						++notSentItems;
+					}
 				}
 				catch (System.Exception exc)
 				{
 					MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+					++notSentItems;
 				}
 			}
 			else //get selected items in list of emails in current folder
 			{
 				Explorer explorer = new Outlook.Application().ActiveExplorer() as Explorer;
 				Selection selection = explorer.Selection;
-
+				totalItems = selection.Count;
 				if (selection.Count == 0)
 				{
-					string s = Properties.Settings.Default.NoMailSelected;
+					string s = settings["NoItemSelected"].ToString();
 					MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 				else
@@ -56,28 +69,73 @@ namespace PhishReport
 						try
 						{
 							sent = Send(selectedItem as MailItem);
+							if (!sent)
+							{
+								++notSentItems;
+							}
 						}
 						catch (System.Exception exc)
 						{
-							MessageBox.Show(exc.Message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							sbErrors.AppendLine(exc.Message);
+							++errors;
 						}
 					}
 				}
 			}
 
-			Dictionary<string, object> settings = Settings.Get();
-			if (sent)
+			if (totalItems == 0)
 			{
-				string s = settings["ConfirmationMessage"].ToString();
-				MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				string s = settings["NoItemSelected"].ToString();
+				MessageBox.Show(s, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Error);
 			}
 			else
 			{
-				string s = settings["ConfirmationMessage"].ToString();
-				MessageBox.Show(string.Format("{0} (Some items was not send)", s), APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				string message = string.Empty;
+				if (errors == totalItems)
+				{
+					MessageBox.Show(sbErrors.ToString(), APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else if (errors > 0)
+				{
+					MessageBox.Show(sbErrors.ToString(), APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+				}
+				else
+				{
+					switch (notSentItems)
+					{
+						case 0:
+							message = settings["ConfirmationMessage"].ToString();
+							MessageBox.Show(message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							break;
+						case 1:
+							if (totalItems == 1)
+							{
+								message = settings["NoSupportedItemSelected"].ToString();
+								MessageBox.Show(message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+							else
+							{
+								message = string.Format(settings["OneUnsupportedItem"].ToString(), notSentItems);
+								MessageBox.Show(string.Format("{0}\n{1}", settings["ConfirmationMessage"].ToString(), message), APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+							break;
+						default:
+							if (totalItems == notSentItems)
+							{
+								message = settings["NoSupportedItemSelected"].ToString();
+								MessageBox.Show(message, APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+							else
+							{
+								message = string.Format(settings["MultipleUnsupportedItems"].ToString(), notSentItems);
+								MessageBox.Show(string.Format("{0}\n{1}", settings["ConfirmationMessage"].ToString(), message), APP_NAME, MessageBoxButtons.OK, MessageBoxIcon.Information);
+							}
+							break;
+					}
+				}
 			}
 		}
-
+		
 		/// <summary>
 		/// Cretaes a new email and sends the original email as attachment. Current email is moved to folder specified in Settings
 		/// </summary>
@@ -161,6 +219,7 @@ namespace PhishReport
 			fwMail.Subject = string.Format("{0}{1}", settings["SubjectPrefix"].ToString(), subject);
 			fwMail.Body = header;
 			fwMail.Attachments.Add(originalMail);
+
 			fwMail.Save();
 			fwMail.Send();
 

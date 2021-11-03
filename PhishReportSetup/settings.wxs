@@ -8,16 +8,16 @@
 				<Control Id="labFwd" Type="Text" X="45" Y="70" Width="100" Height="15" TabSkip="no" Text="&amp;Target email address:" />
 				<Control Id="edtFwd" Type="Edit" X="45" Y="82" Width="220" Height="18" Property="FWD_ADDRESS" />
 				<Control Id="labSubject" Type="Text" X="45" Y="107" Width="100" Height="15" TabSkip="no" Text="&amp;Subject prefix:" />
-				<Control Id="edtSubject" Type="Edit" X="45" Y="119" Width="220" Height="18" Property="SUBJECT_PREFIX" />
+				<Control Id="edtSubject" Type="Edit" X="45" Y="119" Width="220" Height="18" Property="SUBJECT_PREFIX" Text="Suspicious email: " />
 				<Control Id="labConfirmation" Type="Text" X="45" Y="144" Width="100" Height="15" TabSkip="no" Text="&amp;Message to display:" />
-				<Control Id="edtConfirmation" Type="Edit" X="45" Y="156" Width="220" Height="18" Property="CONFIRMATION_MESSAGE" />
+				<Control Id="edtConfirmation" Type="Edit" X="45" Y="156" Width="220" Height="18" Property="CONFIRMATION_MESSAGE" Text="Thank you for you precaution!" />
 				
 				<Control Id="Back" Type="PushButton" X="180" Y="243" Width="56" Height="17" Text="&amp;Back">
 					<Publish Event="NewDialog" Value="InstallDirDlg">1</Publish>
 				</Control>
 				<Control Id="Next" Type="PushButton" X="236" Y="243" Width="56" Height="17" Default="yes" Text="&amp;Next">
 					<Publish Property="InstallMode" Value="Server Image"><![CDATA[1]]></Publish>
-					<Publish Event="NewDialog" Value="VerifyReadyDlg"><![CDATA[1]]></Publish>
+					<Publish Event="NewDialog" Value="dlgSettings2"><![CDATA[1]]></Publish>
 				</Control>
 				<Control Id="Cancel" Type="PushButton" X="304" Y="243" Width="56" Height="17" Cancel="yes" Text="Cancel">
 					<Publish Event="SpawnDialog" Value="CancelDlg">1</Publish>

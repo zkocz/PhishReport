@@ -33,6 +33,7 @@
   <ItemGroup>
     <Compile Include="Product.wxs" />
     <Compile Include="settings.wxs" />
+    <Compile Include="settings2.wxs" />
   </ItemGroup>
   <ItemGroup>
     <WixExtension Include="WixUtilExtension">
