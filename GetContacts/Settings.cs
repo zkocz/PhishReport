@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Xml.Linq;
 
-namespace PhishReport
+namespace GetContacts
 {
 	public class Settings
 	{
@@ -21,7 +21,7 @@ namespace PhishReport
 		public static void Set(string name, string value)
 		{
 			string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			string xmlFile = Path.Combine(dir, "phishreport.settings.xml");
+			string xmlFile = Path.Combine(dir, "GetContacts.settings.xml");
 			string localPath = new Uri(xmlFile).LocalPath;
 			var doc = XElement.Load(localPath);
 
@@ -38,10 +38,10 @@ namespace PhishReport
 		{
 			Dictionary<string, object> data = new Dictionary<string, object>();
 			string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-			string xmlFile = Path.Combine(dir, "phishreport.settings.xml");
+			string xmlFile = Path.Combine(dir, "GetContacts.settings.xml");
 			XDocument doc = XDocument.Load(xmlFile);
 
-			foreach (XElement element in doc.Element("PhishReport").Element("Settings").Elements())
+			foreach (XElement element in doc.Element("GetContacts").Element("Settings").Elements())
 			{
 				string name = element.Name.LocalName;
 				string value = element.Value;

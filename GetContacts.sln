@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PhishReport", "PhishReport\PhishReport.csproj", "{3165B5C3-DF1F-4FD8-BA63-6CA965668E77}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetContacts", "GetContacts\GetContacts.csproj", "{3165B5C3-DF1F-4FD8-BA63-6CA965668E77}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "PhishReportSetup", "PhishReportSetup\PhishReportSetup.wixproj", "{1D7C3CC2-11A8-4CCA-87E7-4270BCA0341E}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "GetContactsSetup", "GetContactsSetup\GetContactsSetup.wixproj", "{1D7C3CC2-11A8-4CCA-87E7-4270BCA0341E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

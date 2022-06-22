@@ -1,5 +1,5 @@
 ﻿
-namespace PhishReport
+namespace GetContacts
 {
 	partial class RibbonSecurity : Microsoft.Office.Tools.Ribbon.RibbonBase
 	{
@@ -61,10 +61,10 @@ namespace PhishReport
 			// sbtnReport
 			// 
 			this.sbtnReport.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-			this.sbtnReport.Image = global::PhishReport.Properties.Resources.spam_64x64;
+			this.sbtnReport.Image = global::GetContacts.Properties.Resources.spam_64x64;
 			this.sbtnReport.Items.Add(this.btnSettings);
 			this.sbtnReport.Items.Add(this.btnAbout);
-			this.sbtnReport.Label = "PhishReport";
+			this.sbtnReport.Label = "GetContacts";
 			this.sbtnReport.Name = "sbtnReport";
 			this.sbtnReport.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.sbtnReport_Click);
 			// 

@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace PhishReport
+namespace GetContacts
 {
 	partial class frmAbout : Form
 	{

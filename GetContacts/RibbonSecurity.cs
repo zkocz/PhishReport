@@ -6,7 +6,7 @@ using Microsoft.Office.Interop.Outlook;
 using Microsoft.Office.Tools.Ribbon;
 using Outlook = Microsoft.Office.Interop.Outlook;
 
-namespace PhishReport
+namespace GetContacts
 {
 	public partial class RibbonSecurity
 	{
@@ -23,7 +23,7 @@ namespace PhishReport
 		private void sbtnReport_Click(object sender, RibbonControlEventArgs e)
 		{
 			//Application.ProductName returns "Outlook"
-			const string APP_NAME = "PhishReport";
+			const string APP_NAME = "GetContacts";
 			Dictionary<string, object> settings = Settings.Get();
 
 			int totalItems = 0;
@@ -213,6 +213,8 @@ namespace PhishReport
 			string propName = "http://schemas.microsoft.com/mapi/proptag/0x007D001E";
 
 			string header = propAccessor.GetProperty(propName);
+
+			
 
 			MailItem fwMail = (MailItem)Globals.ThisAddIn.Application.CreateItem(OlItemType.olMailItem);
 			fwMail.To = settings["FwdAddress"].ToString();
