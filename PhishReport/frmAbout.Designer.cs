@@ -1,5 +1,5 @@
 ﻿
-namespace GetContacts
+namespace PhishReport
 {
 	partial class frmAbout
 	{

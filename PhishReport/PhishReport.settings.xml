@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<GetContacts>
+<PhishReport>
 	<Settings>
 		<FwdAddress>security@lab.local</FwdAddress>
 		<TargetFolder>0</TargetFolder>
@@ -11,4 +11,4 @@
 		<OneUnsupportedItem>One item was not sent</OneUnsupportedItem>
 		<MultipleUnsupportedItems>Some items ({0}) were not send, but they should be safe :)</MultipleUnsupportedItems>
 	</Settings>
-</GetContacts>
+</PhishReport>

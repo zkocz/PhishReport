@@ -6,11 +6,11 @@ using System.Security;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GetContacts")]
-[assembly: AssemblyDescription("This product is protected by copyright law. For details, please see https://github.com/zkocz/GetContacts")]
+[assembly: AssemblyTitle("PhishReport")]
+[assembly: AssemblyDescription("This product is protected by copyright law. For details, please see https://github.com/zkocz/PhishReport")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GetContacts")]
+[assembly: AssemblyProduct("PhishReport")]
 [assembly: AssemblyCopyright("Copyright © Zdenek K. 2021")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

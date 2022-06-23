@@ -26,7 +26,7 @@ using Office = Microsoft.Office.Core;
 // For more information, see the Ribbon XML documentation in the Visual Studio Tools for Office Help.
 
 
-namespace GetContacts
+namespace PhishReport
 {
 	[ComVisible(true)]
 	public class Ribbon : Office.IRibbonExtensibility
@@ -41,7 +41,7 @@ namespace GetContacts
 
 		public string GetCustomUI(string ribbonID)
 		{
-			return GetResourceText("GetContacts.Ribbon.xml");
+			return GetResourceText("PhishReport.Ribbon.xml");
 		}
 
 		#endregion

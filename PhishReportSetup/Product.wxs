@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi" xmlns:util="http://schemas.microsoft.com/wix/UtilExtension">
-	<Product Id="*" Name="GetContacts" Language="1033" Version="1.0.0.0" Manufacturer="Zdenek K." UpgradeCode="ba493dd6-fafb-4e8a-a393-4f1f2502477b">
+	<Product Id="*" Name="PhishReport" Language="1033" Version="1.0.0.0" Manufacturer="Zdenek K." UpgradeCode="ba493dd6-fafb-4e8a-a393-4f1f2502477b">
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 		
-		<MajorUpgrade DowngradeErrorMessage="A newer version of GetContacts is already installed." />
+		<MajorUpgrade DowngradeErrorMessage="A newer version of PhishReport is already installed." />
 
 		<Property Id="VSTORUNTIMEREDIST">
 			<RegistrySearch
@@ -83,9 +83,9 @@
 		<UIRef Id="WixUI_Common" />
 		<UIRef Id="WixUI_ErrorProgressText" />
 
-		<Media Id="1" Cabinet="GetContacts.cab" EmbedCab="yes"/>
+		<Media Id="1" Cabinet="PhishReport.cab" EmbedCab="yes"/>
 		
-		<Feature Id="ProductFeature" Title="GetContacts" Level="1">
+		<Feature Id="ProductFeature" Title="PhishReport" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
 			<ComponentRef Id="Registry_FriendlyName" />
 			<ComponentRef Id="Registry_Description" />
@@ -98,18 +98,18 @@
 	<Fragment>
 		<Directory Id="TARGETDIR" Name="SourceDir">
 			<Directory Id="ProgramFilesFolder">
-				<Directory Id="INSTALLFOLDER" Name="GetContacts" />
+				<Directory Id="INSTALLFOLDER" Name="PhishReport" />
 				<Component Id="Registry_FriendlyName">
-					<RegistryValue Id="RegKey_FriendlyName" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\GetContacts" Name="FriendlyName" Value="GetContacts Add-In for Outlook" Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_FriendlyName" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="FriendlyName" Value="PhishReport Add-In for Outlook" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_Description">
-					<RegistryValue Id="RegKey_Description" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\GetContacts" Name="Description" Value="Outlook add-in for reporting of suspicious e-mails" Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_Description" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="Description" Value="Outlook add-in for reporting of suspicious e-mails" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_Manifest">
-					<RegistryValue Id="RegKey_Manifest" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\GetContacts" Name="Manifest" Value="[INSTALLFOLDER]GetContacts.vsto|vstolocal" Type="string" KeyPath="yes" />
+					<RegistryValue Id="RegKey_Manifest" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="Manifest" Value="[INSTALLFOLDER]PhishReport.vsto|vstolocal" Type="string" KeyPath="yes" />
 				</Component>
 				<Component Id="Registry_LoadBehavior">
-					<RegistryValue Id="RegKey_LoadBehavior" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\GetContacts" Name="LoadBehavior" Value="3" Type="integer" KeyPath="yes" />
+					<RegistryValue Id="RegKey_LoadBehavior" Root="HKLM" Key="Software\Microsoft\Office\Outlook\AddIns\PhishReport" Name="LoadBehavior" Value="3" Type="integer" KeyPath="yes" />
 				</Component>
 			</Directory>
 		</Directory>
@@ -117,23 +117,23 @@
 
 	<Fragment>
 		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
-			<Component Id="GetContacts_vsto_Component">
-				<File Id="GetContacts_vsto" KeyPath="yes" Name="GetContacts.vsto" Source="$(var.AddinFiles)"></File>
+			<Component Id="PhishReport_vsto_Component">
+				<File Id="PhishReport_vsto" KeyPath="yes" Name="PhishReport.vsto" Source="$(var.AddinFiles)"></File>
 			</Component>
-			<Component Id="GetContacts_dll_manifest_Component">
-				<File Id="GetContacts_dll_manifest" KeyPath="yes" Name="GetContacts.dll.manifest" Source="$(var.AddinFiles)"></File>
+			<Component Id="PhishReport_dll_manifest_Component">
+				<File Id="PhishReport_dll_manifest" KeyPath="yes" Name="PhishReport.dll.manifest" Source="$(var.AddinFiles)"></File>
 			</Component>
-			<Component Id="GetContacts_dll_Component" >
-				<File Id="GetContacts_dll" KeyPath="yes" Name="GetContacts.dll" Source="$(var.AddinFiles)" />
+			<Component Id="PhishReport_dll_Component" >
+				<File Id="PhishReport_dll" KeyPath="yes" Name="PhishReport.dll" Source="$(var.AddinFiles)" />
 			</Component>
-			<Component Id="GetContacts_dll_config_Component" >
-				<File Id="GetContacts_dll_config" KeyPath="yes" Name="GetContacts.dll.config" Source="$(var.AddinFiles)" />
+			<Component Id="PhishReport_dll_config_Component" >
+				<File Id="PhishReport_dll_config" KeyPath="yes" Name="PhishReport.dll.config" Source="$(var.AddinFiles)" />
 			</Component>
-			<Component Id="GetContacts_settings_xml_Component" >
-				<File Id="GetContacts_settings_xml" KeyPath="yes" Name="GetContacts.settings.xml" Source="$(var.AddinFiles)" />
-				<util:XmlFile Id="SetFwAddress" File="[#GetContacts_settings_xml]" Action="setValue" ElementPath="/GetContacts/Settings/FwdAddress" Value="[FWD_ADDRESS]" Permanent="yes" />
-				<util:XmlFile Id="SetThanks" File="[#GetContacts_settings_xml]" Action="setValue" ElementPath="/GetContacts/Settings/ConfirmationMessage" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
-				<util:XmlFile Id="SetSubject" File="[#GetContacts_settings_xml]" Action="setValue" ElementPath="/GetContacts/Settings/SubjectPrefix" Value="[SUBJECT_PREFIX]" Permanent="yes" />
+			<Component Id="PhishReport_settings_xml_Component" >
+				<File Id="PhishReport_settings_xml" KeyPath="yes" Name="PhishReport.settings.xml" Source="$(var.AddinFiles)" />
+				<util:XmlFile Id="SetFwAddress" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/FwdAddress" Value="[FWD_ADDRESS]" Permanent="yes" />
+				<util:XmlFile Id="SetThanks" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/ConfirmationMessage" Value="[CONFIRMATION_MESSAGE]" Permanent="yes" />
+				<util:XmlFile Id="SetSubject" File="[#PhishReport_settings_xml]" Action="setValue" ElementPath="/PhishReport/Settings/SubjectPrefix" Value="[SUBJECT_PREFIX]" Permanent="yes" />
 			</Component>			
 			<Component Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll">
 				<File Id="Microsoft_Office_Tools_Common_v4_0_Utilities_dll" KeyPath="yes" Name="Microsoft.Office.Tools.Common.v4.0.Utilities.dll" Source="$(var.AddinFiles)"></File>

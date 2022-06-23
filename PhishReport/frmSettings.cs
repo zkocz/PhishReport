@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-namespace GetContacts
+namespace PhishReport
 {
 	public partial class frmSettings : Form
 	{
@@ -26,7 +26,7 @@ namespace GetContacts
 			try
 			{
 				string dir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().CodeBase);
-				string xmlFile = Path.Combine(dir, "GetContacts.settings.xml");
+				string xmlFile = Path.Combine(dir, "phishreport.settings.xml");
 				string localPath = new Uri(xmlFile).LocalPath;
 				var doc = XElement.Load(localPath);
 
@@ -79,7 +79,7 @@ namespace GetContacts
 		private void BtnOk_Click(object sender, EventArgs e)
 		{
 			//Application.ProductName returns Outlook, so I have const with product name
-			const string APP_NAME = "GetContacts";
+			const string APP_NAME = "PhishReport";
 
 			//verify if string match email pattern
 			bool isEmail = Regex.IsMatch(txtAddreess.Text, @"\A(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?)\Z", RegexOptions.IgnoreCase);
